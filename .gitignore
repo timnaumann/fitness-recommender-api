@@ -1,0 +1,5 @@
+.idea
+.eslintrc.json
+node_modules
+.DS_Store
+fixtures/images

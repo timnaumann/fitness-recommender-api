@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["selectRelationCount"]
+}
+
+model Diagnosis {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  category               Category                 @relation(fields: [categoryId], references: [id])
+  recommendations        Recommendation[]
+  answerDiagnosisDetails AnswerDiagnosisDetails[]
+  categoryId             Int
+}
+
+model Question {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  questionFlowPosition Int?    @default(0)
+  widgetType           String?
+  multiSelectable      Boolean?  @default(false)
+
+  categories      Category[]
+  answers         Answer[]
+  questionStage   QuestionStage? @relation(fields: [questionStageId], references: [id])
+  questionStageId Int?
+}
+
+model QuestionStage {
+  id                   Int    @id @default(autoincrement())
+  name                 String @unique
+  questionFlowPosition Int?   @default(0)
+
+  questions Question[]
+}
+
+model Answer {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  question               Question                 @relation(fields: [questionId], references: [id])
+  answerDiagnosisDetails AnswerDiagnosisDetails[]
+  questionId             Int
+}
+
+model AnswerDiagnosisDetails {
+  id           Int   @default(autoincrement())
+  significance Float
+
+  diagnosis Diagnosis @relation(fields: [diagnosisId], references: [id])
+  answer    Answer    @relation(fields: [answerId], references: [id])
+
+  diagnosisId Int
+  answerId    Int
+  @@id([diagnosisId, answerId])
+}
+
+model Recommendation {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+
+  diagnosis   Diagnosis @relation(fields: [diagnosisId], references: [id])
+  diagnosisId Int
+
+  totalRatings  Int      @default(0)
+  averageRating Float    @default(0)
+  ratings        Rating[]
+}
+
+model Rating {
+  id          Int    @id @default(autoincrement())
+  rating      Float
+  explanation String
+  locale      String
+
+  recommendation   Recommendation @relation(fields: [recommendationId], references: [id])
+  recommendationId Int
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  questions Question[]
+  diagnosis Diagnosis[]
+}
+
+model Locale {
+  id         Int    @id @default(autoincrement())
+  name       String @unique
+  localeFile Json?
+}
+
+model Setting {
+  id         Int    @id @default(autoincrement())
+  key        String @unique
+  value      String
+}
+

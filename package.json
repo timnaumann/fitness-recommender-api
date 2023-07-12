@@ -1,0 +1,58 @@
+{
+  "name": "fitness-recommender-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node --es-module-specifier-resolution=node ./src/server.js",
+    "dev": "nodemon --es-module-specifier-resolution=node ./src/server.js",
+    "build": "npm ci && prisma db push --accept-data-loss",
+    "migrations": "prisma migrate dev --preview-feature",
+    "addExampleData": "node --es-module-specifier-resolution=node ./test/generateTestData.js",
+    "lint": "eslint src/** --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/tim.naumann0/fitness-recommender-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/tim.naumann0/fitness-recommender-api/issues"
+  },
+  "homepage": "https://gitlab.com/tim.naumann0/fitness-recommender-api#readme",
+  "dependencies": {
+    "@hapi/boom": "9.1.1",
+    "@hapi/hapi": "20.1.0",
+    "@hapi/inert": "6.0.3",
+    "@hapi/joi": "17.1.1",
+    "@prisma/client": "2.27.0",
+    "@tensorflow/tfjs": "3.0.0",
+    "@tensorflow/tfjs-node": "3.0.0",
+    "aws-sdk": "2.912.0",
+    "axios": "0.21.1",
+    "dotenv": "8.2.0",
+    "glob": "7.1.6",
+    "hapi-auth-jwt2": "10.2.0",
+    "hapi-locale-17": "2.0.26",
+    "http-status-codes": "2.1.4",
+    "jwks-rsa": "2.0.4",
+    "uuid": "8.3.2",
+    "winston": "3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.8",
+    "@hapi/code": "8.0.2",
+    "@hapi/eslint-plugin": "5.1.0",
+    "@hapi/eslint-plugin-hapi": "4.3.6",
+    "eslint": "7.32.0",
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "nodemon": "2.0.7",
+    "prisma": "2.27.0"
+  },
+  "type": "module"
+}
